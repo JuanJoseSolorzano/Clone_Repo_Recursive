@@ -26,12 +26,9 @@ This Visual Studio Code extension allows users to clone a Git repository recursi
 Alternatively, you can use the status bar item:
 - Click on the status bar item labeled `Clone Repo Recursively` to trigger the cloning process.
 
-## Installation
+## Screenshot
 
-1. Clone this repository.
-2. Open the folder in Visual Studio Code.
-3. Run `npm install` to install dependencies.
-4. Press `F5` to launch the extension in a new Extension Development Host window.
+![Clone Submodules Status Bar Item](./Screenshot.png)
 
 ## Commands
 
