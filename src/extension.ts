@@ -13,7 +13,7 @@ import { exec } from 'child_process'; // Importing exec from child_process to ex
 //NOTE: Activate function is the entry point of the extension. It's called when the extension is installed and activated.
 // The command ID must match the one in package.json
 export function activate(context: vscode.ExtensionContext) {
-	vscode.commands.registerCommand('clonetarepo.CloneRepoRecursively', async () => {
+	vscode.commands.registerCommand('clonewithsubmodule.CloneRepoRecursively', async () => {
 		const repoUrl = await vscode.window.showInputBox({
 			// Shows the input box in the command palette.
 			prompt: 'Enter the repository URL to clone',
@@ -68,10 +68,10 @@ export function activate(context: vscode.ExtensionContext) {
 	const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
 	statusBarItem.text = '$(repo-clone) Clone Submodules';
 	statusBarItem.tooltip = 'Click to clone a repository recursively';
-	statusBarItem.command = 'clonetarepo.CloneRepoRecursively'; // Updated command ID
+	statusBarItem.command = 'clonewithsubmodule.CloneRepoRecursively'; // Updated command ID
 	statusBarItem.show();
 	context.subscriptions.push(statusBarItem);
-	console.log('The extension "clonetarepo" is now active!');
+	console.log('The extension "clonewithsubmodule" is now active!');
 }
 
 /**

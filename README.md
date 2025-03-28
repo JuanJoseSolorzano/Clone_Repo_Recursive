@@ -37,13 +37,13 @@ Alternatively, you can use the status bar item:
 
 | Command ID                       | Description                          |
 |----------------------------------|--------------------------------------|
-| `clonetarepo.CloneRepoRecursively` | Prompts the user to clone a repository recursively. |
+| `clonewithsubmodule.CloneRepoRecursively` | Prompts the user to clone a repository recursively. |
 
 ## Status Bar Item
 
 - **Text**: `$(repo-clone) Clone Repo Recursively`
 - **Tooltip**: `Click to clone a repository recursively`
-- **Command**: `clonetarepo.CloneRepoRecursively`
+- **Command**: `clonewithsubmodule.CloneRepoRecursively`
 
 ## Error Handling
 

@@ -1,6 +1,6 @@
 {
-  "name": "clonetarepo",
-  "displayName": "cloneTaRepo",
+  "name": "clonewithsubmodule",
+  "displayName": "clonewithsubmodule",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -16,7 +16,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "clonetarepo.CloneRepoRecursively",
+        "command": "clonewithsubmodule.CloneRepoRecursively",
         "title": "Clone Repo Recursively"
       }
     ]
