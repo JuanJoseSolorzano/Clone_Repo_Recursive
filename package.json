@@ -10,14 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "clonetarepo.CloneRepoTA",
-        "title": "Clone Test Automation Repo"
+        "command": "clonetarepo.CloneRepoRecursively",
+        "title": "Clone Repo Recursively"
       }
     ]
   },
