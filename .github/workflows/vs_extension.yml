@@ -40,8 +40,8 @@ jobs:
 
       - name: Build and Package
         run: |
-          npx webpack --output-path ./dist
-          npx vsce package
+          #npx webpack --output-path ./dist
+          vsce package
         
       - name: Upload .vsix for Release
         run: |
