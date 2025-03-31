@@ -27,7 +27,10 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci  # `npm ci` is more reliable for CI environments as it installs dependencies based on the package-lock.json
+
+      - name: Install ts-loader
+        run: npm install ts-loader --save-dev  # Ensure ts-loader is installed
 
       - name: Install global tools
         run: |
@@ -38,7 +41,7 @@ jobs:
       - name: Build and Package Extension
         run: |
           npx webpack --output-path ./dist
-          npx vsce package --out my-extension.vsix
+          npx vsce package --out clone_repo_recursively.vsix
 
   release:
     runs-on: ubuntu-latest
@@ -51,12 +54,13 @@ jobs:
       - name: Publish to VS Code Marketplace
         run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
+            NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
+        continue-on-error: true
 
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: my-extension.vsix
+          files: 'clone_repo_recursively.vsix'
           body: "🚀 New release of the VS Code extension!"
           draft: false
           prerelease: false
