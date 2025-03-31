@@ -7,25 +7,28 @@ on:
     pull_request:
         branches:
             - master
-
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                node-version: '18'
-            - name: Install Code Generator
-              run: npm install -g yo generator-code
-            - name: Install vsce
-              run: npm install -g @vscode/vsce
-            - name: Install webpack-cli
-              run: npm install -g webpack-cli
-            - name: Install dependencies
-              run: npm install --save-dev webpack webpack-cli
-              
-            - name: Build project
-              run: npm run build
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install global tools
+        run: |
+          npm install -g yo generator-code
+          npm install -g @vscode/vsce
+          npm install -g webpack webpack-cli
+
+      - name: Build and Package
+        run: |
+          npx webpack
+          npx vsce package
