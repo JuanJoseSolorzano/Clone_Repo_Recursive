@@ -48,6 +48,12 @@ jobs:
           ls -l # Verify that the .vsix file exists
           echo "Ready to upload .vsix file"
 
+      - name: Upload VSIX file as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vsix-file
+          path: "./*.vsix"  # Upload the .vsix file as an artifact
+
   release:
     runs-on: ubuntu-latest
     needs: build
@@ -56,16 +62,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Publish to VS Code Marketplace
-        run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }}
-        env:
-            NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
-        continue-on-error: true
+      - name: Download VSIX file artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: vsix-file  # This should match the artifact name from the build job
 
       - name: List files before release
         run: |
           echo "Listing files before release"
           ls -l 
+        
+      - name: Publish to VS Code Marketplace
+        run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }}
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
+        continue-on-error: true
 
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
