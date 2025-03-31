@@ -32,7 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const repoName = getRepoNameFromUrl(repoUrl);
 		const finalPath = `${targetPath}/${repoName}`;
 		if (!isDirectoryEmpty(targetPath) && fs.existsSync(finalPath)) {
-			vscode.window.showErrorMessage('The selected directory already contains a folder with the same repository name. Please select a different directory.');
+			vscode.window.showErrorMessage('[!] The selected directory already contains a folder with the same repository name. Please select a different directory.');
 			return;
 		}
 		// Clone repository process.
