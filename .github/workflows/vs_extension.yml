@@ -60,7 +60,7 @@ jobs:
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: 'clone_repo_recursively.vsix'
+          files: "./dist/clone_repo_recursively.vsix"
           body: "🚀 New release of the VS Code extension!"
           draft: false
           prerelease: false
