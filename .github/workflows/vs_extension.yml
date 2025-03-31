@@ -38,10 +38,15 @@ jobs:
           npm install -g @vscode/vsce
           npm install -g webpack webpack-cli
 
-      - name: Build and Package Extension
+      - name: Build and Package
         run: |
           npx webpack --output-path ./dist
-          npx vsce package --out clone_repo_recursively.vsix
+          npx vsce package
+        
+      - name: Upload .vsix for Release
+        run: |
+          ls -l # Verify that the .vsix file exists
+          echo "Ready to upload .vsix file"
 
   release:
     runs-on: ubuntu-latest
@@ -60,7 +65,7 @@ jobs:
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: "git-clone-with-submodules-1.4.0.vsix"
+          files: "./dist/*.vsix"  # Adjust the path if the .vsix is located elsewhere
           body: "🚀 New release of the VS Code extension!"
           draft: false
           prerelease: false
