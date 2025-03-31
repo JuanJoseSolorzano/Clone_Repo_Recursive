@@ -1,12 +1,13 @@
 name: CI Workflow
 
 on:
-    push:
-        branches:
-            - master
-    pull_request:
-        branches:
-            - master
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,13 +37,29 @@ jobs:
         run: |
           npx webpack
           npx vsce package
+
+      - name: Upload artifact for deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist  # 🔹 Ensure this matches your build output folder
+
   deploy:
-      environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
-      runs-on: ubuntu-latest
-      needs: build
-      steps:
-        - name: Deploy to GitHub Pages
-          id: deployment
-          uses: actions/deploy-pages@v4
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write  # ✅ Ensures OIDC authentication works
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # 🔹 Ensures repo access in deploy job
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4  # 🔹 Required for deployment
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
