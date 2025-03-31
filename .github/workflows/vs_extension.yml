@@ -65,7 +65,7 @@ jobs:
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: "*.vsix"  # Adjust the path if the .vsix is located elsewhere
+          files: "./*.vsix"  # Adjust the path if the .vsix is located elsewhere
           body: "🚀 New release of the VS Code extension!"
           draft: false
           prerelease: false
