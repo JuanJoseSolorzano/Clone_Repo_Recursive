@@ -14,7 +14,7 @@ jobs:
     permissions:
       contents: read
       pages: write
-      id-token: write  # ✅ Ensures OIDC authentication works
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -38,10 +38,13 @@ jobs:
           npx webpack
           npx vsce package
 
+      - name: Publish to VS Code Marketplace
+        run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }}
+
       - name: Upload artifact for deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist  # 🔹 Ensure this matches your build output folder
+          path: ./dist
 
   deploy:
     environment:
@@ -52,13 +55,13 @@ jobs:
     permissions:
       contents: read
       pages: write
-      id-token: write  # ✅ Ensures OIDC authentication works
+      id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  # 🔹 Ensures repo access in deploy job
+        uses: actions/checkout@v3
 
       - name: Setup GitHub Pages
-        uses: actions/configure-pages@v4  # 🔹 Required for deployment
+        uses: actions/configure-pages@v4
 
       - name: Deploy to GitHub Pages
         id: deployment
