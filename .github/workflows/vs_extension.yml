@@ -48,12 +48,6 @@ jobs:
           ls -l # Verify that the .vsix file exists
           echo "Ready to upload .vsix file"
 
-      - name: Upload VSIX file as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: vsix-file
-          path: "*.vsix"  # Upload the .vsix file as an artifact
-
   release:
     runs-on: ubuntu-latest
     needs: build
@@ -71,7 +65,7 @@ jobs:
       - name: List files before release
         run: |
           echo "Listing files before release"
-          ls -l 
+          ls -l   
 
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
