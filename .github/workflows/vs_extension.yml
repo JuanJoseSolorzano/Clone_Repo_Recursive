@@ -18,6 +18,12 @@ jobs:
               uses: actions/setup-node@v3
               with:
                 node-version: '18'
+            - name: Install Code Generator
+              run: npm install -g yo generator-code
+            - name: Install vsce
+              run: npm install -g @vscode/vsce
+            - name: Install webpack-cli
+              run: npm install -g webpack-cli
             - name: Install dependencies
               run: npm install --save-dev webpack webpack-cli
               
