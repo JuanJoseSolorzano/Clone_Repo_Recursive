@@ -1,20 +1,22 @@
-name: CI Workflow
+name: CI & Release Workflow
 
 on:
   push:
     branches:
       - master
+    tags:
+      - 'v*'  # Triggers release when pushing versioned tags (e.g., v1.0.0)
   pull_request:
     branches:
       - master
 
+permissions:
+  contents: write  # Needed for GitHub Releases
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -33,36 +35,39 @@ jobs:
           npm install -g @vscode/vsce
           npm install -g webpack webpack-cli
 
-      - name: Build and Package
+      - name: Build and Package Extension
         run: |
-            npx webpack --output-path ./dist
-            npx vsce package
-
-      #- name: Publish to VS Code Marketplace
-      #  run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }}
+          npx webpack --output-path ./dist
+          npx vsce package --out my-extension.vsix
 
       - name: Upload artifact for deployment
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
-            path: ./dist  # Ensure this matches the build output folder
+          name: my-extension-vsix
+          path: my-extension.vsix
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  release:
     runs-on: ubuntu-latest
     needs: build
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+    if: startsWith(github.ref, 'refs/tags/v')  # Only run for tag-based releases
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v4
+      - name: Upload VSIX to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: my-extension.vsix
+          body: "🚀 New release of the VS Code extension!"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')  # Only run for tag-based releases
+    steps:
+      - name: Publish to VS Code Marketplace
+        run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }}
