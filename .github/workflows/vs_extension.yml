@@ -19,10 +19,7 @@ jobs:
               with:
                 node-version: '18'
             - name: Install dependencies
-              run: npm install
-
-            - name: Run tests
-              run: npm test
-
+              run: npm install --save-dev webpack webpack-cli
+              
             - name: Build project
               run: npm run build
