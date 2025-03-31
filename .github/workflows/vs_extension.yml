@@ -10,6 +10,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write  # ✅ Ensures OIDC authentication works
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
