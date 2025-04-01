@@ -43,14 +43,16 @@ jobs:
       - name: Build and Package
         run: vsce package
         
-      #- name: Upload VSIX Artifact
-      #  uses: actions/upload-artifact@v3
-      #  with:
-      #    name: vsix-artifact
-      #    path: '*.vsix'  # Adjust the path if the .vsix is located elsewhere
-      - name: Upload .vsix for Release
+      - name: Upload VSIX Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vsix-artifact
+          path: '/home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive/git-clone-with-submodules-1.3.8.vsix'  # Adjust the path if the .vsix is located elsewhere
+
+      - name: Checking the GITHUB_WORKSPACE directory
         run: |
-          ls -l # Verify that the .vsix file exists
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          ls -l $GITHUB_WORKSPACE  # List files in the workspace to verify the .vsix file is present
 
   release:
     runs-on: ubuntu-latest
@@ -71,7 +73,7 @@ jobs:
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: "./*.vsix"  # Adjust the path if the .vsix is located elsewhere
+          files: "/home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive/git-clone-with-submodules-1.3.8.vsix"  # Adjust the path if the .vsix is located elsewhere
           body: "🚀 New release of the VS Code extension!"
           draft: false
           prerelease: false
