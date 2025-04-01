@@ -91,6 +91,14 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
         continue-on-error: false  # Fail the job if publishing fails
 
+      - name: Create Deployment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          issue-number: "${{ github.run_id }}"
+          body: "Deployment status set to success."
+
   release:
     runs-on: ubuntu-latest
     needs: build
