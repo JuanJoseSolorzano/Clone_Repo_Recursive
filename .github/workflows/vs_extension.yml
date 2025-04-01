@@ -86,21 +86,11 @@ jobs:
         continue-on-error: false  # Fail the job if vsce is not installed correctly
       # Publishing the extension to the VSCode Marketplace.
       - name: Publish to VS Code Marketplace
+        run: vsce publish --pat "${{ secrets.VSCE_TOKEN }}" # VSCE_TOKEN is a secret stored in the repository settings.
         env:
-          VSCODE_PUBLISH_TOKEN: ${{ secrets.VSCODE_PUBLISH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
-        run: vsce publish --pat "${{ secrets.VSCODE_PUBLISH_TOKEN }}" # VSCE_TOKEN is a secret stored in the repository settings.
         continue-on-error: false  # Fail the job if publishing fails
-
-      - name: Create Deployment
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: "Deployment status set to success."
-
+        
   release:
     runs-on: ubuntu-latest
     needs: build
