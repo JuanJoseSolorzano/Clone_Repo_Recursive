@@ -63,7 +63,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest # Tells GitHub to run the job on the latest VM image available for Ubuntu.
     needs: build # This job depends on the build job, so it will only run after the build job is completed successfully.
-    if: 'contains(github.ref_name, "v") == false && github.ref_name == "master"' # Only run this job for non-versioned tags and push events
+    if: 'contains(github.ref_name, v) == false && github.ref_name == "master"' # Only run this job for non-versioned tags and push events
     steps: # Dependencies steps are the same as in the build job.
       - name: Checkout repository # clone the repository to the GitHub workspace
         run: echo "${{ github.ref_type }}" # This is a placeholder for the actual checkout step.
