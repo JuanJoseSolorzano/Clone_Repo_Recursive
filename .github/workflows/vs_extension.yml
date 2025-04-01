@@ -76,15 +76,19 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vsix-artifact
+        
+      - name: Install vsce
+        run: npm install -g @vscode/vsce
+
+      - name: Verify vsce Installation
+        run: vsce --version
+        continue-on-error: false  # Fail the job if vsce is not installed correctly
 
       - name: Publish to VS Code Marketplace
-        run: |
-          echo "Publishing to VS Code Marketplace..."
-          echo "VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}"
-          vsce publish --pat "${{ secrets.VSCE_TOKEN }}"
+        run: vsce publish --pat "${{ secrets.VSCE_TOKEN }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
-        continue-on-error: true
+        continue-on-error: false  # Fail the job if publishing fails
 
       #- name: Upload VSIX to GitHub Release
       #  uses: softprops/action-gh-release@v1
