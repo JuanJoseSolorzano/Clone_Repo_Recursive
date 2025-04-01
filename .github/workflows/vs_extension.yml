@@ -50,6 +50,7 @@ jobs:
           root_file_path="$GITHUB_WORKSPACE/$file_name"
           echo "root_file_location=$root_file_path"
           echo "root_file_location=$root_file_path" >> $GITHUB_ENV  # Append the file location to the GITHUB_ENV file
+          echo "${{ github.ref_name }}"
       # Upload the .vsix file as an artifact (cloud server) for later use in the release job.
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
@@ -65,7 +66,7 @@ jobs:
     if: '!startsWith(github.ref_name, ''v'')'  # Only run this job for non-versioned tags
     steps: # Dependencies steps are the same as in the build job.
       - name: Checkout repository # clone the repository to the GitHub workspace
-        run: echo "${{ github.workspace }}" # This is a placeholder for the actual checkout step.
+        run: echo "${{ github.ref_type }}" # This is a placeholder for the actual checkout step.
       #- name: Checkout repository
       #  uses: actions/checkout@v3
       ## Download the artifact from the build job.
