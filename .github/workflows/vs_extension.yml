@@ -43,15 +43,14 @@ jobs:
       - name: Build and Package
         run: vsce package
         
-      - name: Upload VSIX Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: vsix-artifact
-          path: '*.vsix'  # Adjust the path if the .vsix is located elsewhere
-      #- name: Upload .vsix for Release
-      #  run: |
-      #    ls -l # Verify that the .vsix file exists
-      #    echo "Ready to upload .vsix file"
+      #- name: Upload VSIX Artifact
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #    name: vsix-artifact
+      #    path: '*.vsix'  # Adjust the path if the .vsix is located elsewhere
+      - name: Upload .vsix for Release
+        run: |
+          ls -l # Verify that the .vsix file exists
 
   release:
     runs-on: ubuntu-latest
