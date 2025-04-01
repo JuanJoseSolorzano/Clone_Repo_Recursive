@@ -4,6 +4,7 @@ on:
   push: # when pushing the master branch or pushing a tag
     branches:
       - master
+      - develop
     tags:
       - 'v*'  # Triggers release when pushing versioned tags (e.g., v1.0.0)
 
