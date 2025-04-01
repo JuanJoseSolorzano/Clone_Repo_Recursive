@@ -53,6 +53,8 @@ jobs:
           root_file_path="$GITHUB_WORKSPACE/$file_name"
           echo "root_file_location=$root_file_path"
           echo "root_file_location=$root_file_path" >> $GITHUB_ENV  # Append the file location to the GITHUB_ENV file
+          echo "This is a test to see the evn.root_file_location variable"
+          echo "${{ env.root_file_location}}"
       # Upload the .vsix file as an artifact (cloud server) for later use in the release job.
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
@@ -110,7 +112,7 @@ jobs:
       - name: Check File Name
         run: |
           ls # Check the file location 
-          echo "File name: ${{ env.root_file_location }}"
+          echo "File name: ${{ env.root_file_location }}" # BUG: The root_file_location is not set in the release job.
     #NOTE: Set a release version based on the tag name.
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
