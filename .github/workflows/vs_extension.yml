@@ -7,7 +7,7 @@ on:
     tags:
       - 'v*'  # Triggers release when pushing versioned tags (e.g., v1.0.0)
   pull_request: # when creating a pull request to the master branch
-    branches:
+    branches: # Only run on pull requests targeting the master branch
       - master
 
 # Permissions for the workflow
