@@ -78,7 +78,10 @@ jobs:
           name: vsix-artifact
 
       - name: Publish to VS Code Marketplace
-        run: vsce publish --pat ${{ secrets.VSCE_TOKEN }}
+        run: |
+          echo "Publishing to VS Code Marketplace..."
+          echo "VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}"
+          vsce publish --pat "${{ secrets.VSCE_TOKEN }}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
         continue-on-error: true
