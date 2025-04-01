@@ -41,7 +41,7 @@ jobs:
           npm install -g webpack webpack-cli
 
       - name: Build and Package
-        run: vsce package
+        run: vsce package --cwd /home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive
        
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
@@ -57,7 +57,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: build
-    if: startsWith(github.ref_name, 'v')  # Only run for tag-based releases
+    # if: startsWith(github.ref_name, 'v')  # Only run for tag-based releases
     steps:
       - name: Download VSIX Artifact
         uses: actions/download-artifact@v4
@@ -65,17 +65,17 @@ jobs:
           name: vsix-artifact
 
       - name: Publish to VS Code Marketplace
-        run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }}
+        run: vsce publish --pat ${{ secrets.VSCE_TOKEN }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
         continue-on-error: true
 
-      - name: Upload VSIX to GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: "/home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive/git-clone-with-submodules-1.3.8.vsix"  # Adjust the path if the .vsix is located elsewhere
-          body: "🚀 New release of the VS Code extension!"
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #- name: Upload VSIX to GitHub Release
+      #  uses: softprops/action-gh-release@v1
+      #  with:
+      #    files: "/home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive/git-clone-with-submodules-1.3.8.vsix"  # Adjust the path if the .vsix is located elsewhere
+      #    body: "🚀 New release of the VS Code extension!"
+      #    draft: false
+      #    prerelease: false
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
