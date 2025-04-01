@@ -4,9 +4,11 @@ on:
   push: # when pushing the master branch or pushing a tag
     branches:
       - master
-      - develop
     tags:
       - 'v*'  # Triggers release when pushing versioned tags (e.g., v1.0.0)
+  pull_request: # when creating a pull request to the master branch
+    branches:
+      - master
 
 # Permissions for the workflow
 permissions:
@@ -16,7 +18,7 @@ permissions:
 # Job to build the VS Code extension
 jobs:
   build:
-    if: github.event_name == 'release' && contains(github.ref_name, 'v') == false # Only run this job for release events
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
     runs-on: ubuntu-latest # Tells GitHub to run the job on the latest VM image available for Ubuntu.
     steps: # Steps to be executed in the job
       - name: Checkout repository # clone the repository to the GitHub workspace
