@@ -1,28 +1,30 @@
-name: CI & Release Workflow
-
-on:
-  push:
+name: CI & Release Workflow # Name identification for the workflow
+# Triggers the workflow on specific events
+on: 
+  push: # when pushing the master branch or pushing a tag
     branches:
       - master
     tags:
       - 'v*'  # Triggers release when pushing versioned tags (e.g., v1.0.0)
-  pull_request:
+  pull_request: # when a pull request is opened or updated.
     branches:
       - master
-
+# Permissions for the workflow
 permissions:
   contents: write  # Needed for GitHub Releases
   id-token: write
 
+# Job to build the VS Code extension
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
+    runs-on: ubuntu-latest # Tells GitHub to run the job on the latest VM image available for Ubuntu.
+    steps: # Steps to be executed in the job
+      - name: Checkout repository # clone the repository to the GitHub workspace
         uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+    # From here, the following steps are executed to install dependencies, build the extension, and package it into a .vsix file.
+    # Same steps that you would do locally to build the extension.
+      - name: Setup Node.js # NodeJs environment 
+        uses: actions/setup-node@v3 
         with:
           node-version: 18
 
@@ -39,33 +41,33 @@ jobs:
           npm install -g webpack webpack-cli
 
       - name: Build and Package
-        run: |
-          #npx webpack --output-path ./dist
-          vsce package
+        run: vsce package
         
-      - name: Upload .vsix for Release
-        run: |
-          ls -l # Verify that the .vsix file exists
-          echo "Ready to upload .vsix file"
+      - name: Upload VSIX Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vsix-artifact
+          path: '*.vsix'  # Adjust the path if the .vsix is located elsewhere
+      #- name: Upload .vsix for Release
+      #  run: |
+      #    ls -l # Verify that the .vsix file exists
+      #    echo "Ready to upload .vsix file"
 
   release:
     runs-on: ubuntu-latest
     needs: build
-    if: startsWith(github.ref, 'refs/tags/v')  # Only run for tag-based releases
+    if: startsWith(github.ref_name, 'v')  # Only run for tag-based releases
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Download VSIX Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: vsix-artifact
 
       - name: Publish to VS Code Marketplace
         run: npx vsce publish --pat ${{ secrets.VSCE_TOKEN }}
         env:
-            NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
         continue-on-error: true
-
-      - name: List files before release
-        run: |
-          echo "Listing files before release"
-          ls -l   
 
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
