@@ -60,8 +60,6 @@ jobs:
           name: vsix-artifact
           path: ${{ env.root_file_location }}  # Use the environment variable set in the previous step
 
-      
-
   release:
     runs-on: ubuntu-latest
     needs: build
@@ -82,6 +80,9 @@ jobs:
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
           ls -l $GITHUB_WORKSPACE  # List files in the workspace to verify the .vsix file is present
           echo "GITHUB_ENV: ${{ env.root_file_location }}"
+          
+      - name: Install ts-loader
+        run: npm install ts-loader --save-dev  # Ensure ts-loader is installed
 
       - name: Install vsce
         run: npm install -g @vscode/vsce
