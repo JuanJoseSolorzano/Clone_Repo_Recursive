@@ -37,7 +37,48 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		// Clone repository process.
 		const cloneProcess = exec(`git clone --recursive ${repoUrl} "${finalPath}"`);
-		vscode.window.showInformationMessage(`Cloning repository ${repoUrl} into ${finalPath}...`);
+		vscode.window.withProgress({
+			location: vscode.ProgressLocation.Notification,
+			title: `Cloning repository ${repoUrl} into ${finalPath}...`,
+			cancellable: true
+		}, (progress, token) => {
+			return new Promise((resolve, reject) => {
+				cloneProcess.on('error', (error) => {
+					vscode.window.showErrorMessage(`Failed to clone repository: ${error.message}`);
+					reject(error);
+				});
+				cloneProcess.on('exit', (code) => {
+					if (code === 0) {
+						vscode.window.showInformationMessage(`Repository cloned successfully into ${finalPath}`);
+						resolve(undefined);
+					} else {
+						vscode.window.showErrorMessage(`Failed to clone repository. Process exited with code ${code}`);
+						reject(new Error(`Process exited with code ${code}`));
+					}
+				});
+				// Handle cancellation
+				token.onCancellationRequested(() => {
+					cloneProcess.kill(); // Kill the process if cancelled
+					vscode.window.showInformationMessage('Cloning process cancelled.');
+					reject(new Error('Cloning process cancelled.'));
+				});
+				// Update progress
+				progress.report({ increment: 0 }); // Initial progress
+				const interval = setInterval(() => {
+					if (cloneProcess.killed) {
+						clearInterval(interval);
+						return;
+					}
+					// Simulate progress update
+					progress.report({ increment: 10 }); // Update progress
+				}, 1000); // Update every second
+				// Clean up interval on process exit
+				cloneProcess.on('exit', () => {
+					clearInterval(interval);
+				});
+			});
+		});
+		//vscode.window.showInformationMessage(`Cloning repository ${repoUrl} into ${finalPath}...`);
 		// Store the process output in the output channel.
 		cloneProcess.stdout?.on('data', (data) => {console.log(`stdout: ${data}`);});
 		cloneProcess.stderr?.on('data', (data) => {console.error(`stderr: ${data}`);});

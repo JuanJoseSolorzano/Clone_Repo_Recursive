@@ -2,7 +2,7 @@
 
 ## Description
 
-This Visual Studio Code extension allows users to clone a Git repository recursively. It provides a command that prompts the user for a repository URL and a target directory, then executes the `git clone --recursive` command. After cloning, users can choose to open the repository in the current workspace, a new window, or add it to the current workspace.
+This Visual Studio Code extension enables users to clone a Git repository recursively, including all its submodules. It provides a command that prompts the user to enter a repository URL and select a target directory. The extension then executes the `git clone --recursive` command to download the repository and update all its submodules. After cloning, users can choose to open the repository in the current workspace, a new window, or add it to the current workspace.
 
 ## Features
 
