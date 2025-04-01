@@ -50,20 +50,22 @@ jobs:
           dir_content=$(ls -1 $GITHUB_WORKSPACE)  # List files in the current directory
           file_name=$(echo $dir_content | tr ' ' '\n' | grep ".vsix")
           echo "File name: $file_name"
-          echo "root_file_location=$GITHUB_WORKSPACE/$file_name" >> $GITHUB_ENV  # Set the file location as an environment variable
+          root_file_path="$GITHUB_WORKSPACE/$file_name"
+          echo "root_file_location=$root_file_path"
+          echo "root_file_location=$root_file_path" >> $GITHUB_ENV  # Append the file location to the GITHUB_ENV file
        
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
         with:
           name: vsix-artifact
-          path: $GITHUB_ENV.root_file_location  # Use the environment variable set in the previous step
+          path: ${{ env.root_file_location }}  # Use the environment variable set in the previous step
 
       - name: Checking the GITHUB_WORKSPACE directory
         run: |
           echo "DEBUG: Checking the GITHUB_WORKSPACE directory"
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
           ls -l $GITHUB_WORKSPACE  # List files in the workspace to verify the .vsix file is present
-          echo "GITHUB_ENV: $GITHUB_ENV.root_file_location" 
+          echo "GITHUB_ENV: ${{ env.root_file_location }}"
 
   release:
     runs-on: ubuntu-latest
