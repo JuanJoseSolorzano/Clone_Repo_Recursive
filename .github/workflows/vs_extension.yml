@@ -50,7 +50,7 @@ jobs:
           dir_content=$(ls -1 $GITHUB_WORKSPACE)  # List files in the current directory
           file_name=$(echo $dir_content | tr ' ' '\n' | grep ".vsix")
           echo "File name: $file_name"
-          echo "root_file_location: $GITHUB_WORKSPACE/$file_name" >> $GITHUB_ENV  # Set the file name as an environment variable
+          echo "root_file_location=$GITHUB_WORKSPACE/$file_name" >> $GITHUB_ENV  # Set the file location as an environment variable
        
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
