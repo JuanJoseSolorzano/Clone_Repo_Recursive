@@ -108,7 +108,9 @@ jobs:
           name: vsix-artifact
 
       - name: Check File Name
-        run: ls # Check the file location 
+        run: |
+          ls # Check the file location 
+          echo "File name: ${{ env.root_file_location }}"
     #NOTE: Set a release version based on the tag name.
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
