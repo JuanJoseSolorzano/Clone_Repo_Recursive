@@ -42,12 +42,13 @@ jobs:
 
       - name: Build and Package
         run: vsce package
+       
         
       - name: Upload VSIX Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: vsix-artifact
-          path: '/home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive/git-clone-with-submodules-1.3.8.vsix'  # Adjust the path if the .vsix is located elsewhere
+          path: '/home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive/git-clone-with-submodules-1.3.8.vsix'
 
       - name: Checking the GITHUB_WORKSPACE directory
         run: |
