@@ -92,11 +92,12 @@ jobs:
         continue-on-error: false  # Fail the job if publishing fails
 
       - name: Create Deployment
+        if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          issue-number: "${{ github.run_id }}"
+          issue-number: ${{ github.event.pull_request.number }}
           body: "Deployment status set to success."
 
   release:
