@@ -41,7 +41,9 @@ jobs:
           npm install -g webpack webpack-cli
 
       - name: Build and Package
-        run: vsce package --cwd /home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive
+        run: |
+          cd /home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive
+          vsce package
        
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
