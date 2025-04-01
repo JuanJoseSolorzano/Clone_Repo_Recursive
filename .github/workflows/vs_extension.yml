@@ -64,7 +64,7 @@ jobs:
     if: startsWith(github.ref_name, '.')  # Only run this job for versioned tags (e.g., v1.0.0)
     steps: # Dependencies steps are the same as in the build job.
       - name: Checkout repository # clone the repository to the GitHub workspace
-        run: echo "{{ github.workspace }}" # This is a placeholder for the actual checkout step.
+        run: echo "${{ github.workspace }}" # This is a placeholder for the actual checkout step.
       #- name: Checkout repository
       #  uses: actions/checkout@v3
       ## Download the artifact from the build job.
@@ -94,7 +94,7 @@ jobs:
     if: startsWith(github.ref_name, 'v')  
     steps: # Dependencies steps are the same as in the build job.
       - name: Checkout repository
-        run: echo "{{ github.ref_name }}" # This is a placeholder for the tag name.
+        run: echo "${{ github.ref_name }}" # This is a placeholder for the tag name.
       #- name: Checkout repository
       #  uses: actions/checkout@v3
       ## Download the artifact from the build job.
