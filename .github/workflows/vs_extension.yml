@@ -43,9 +43,8 @@ jobs:
       - name: Build and Package
         run: vsce package
        
-        
       - name: Upload VSIX Artifact
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: vsix-artifact
           path: '/home/runner/work/Clone_Repo_Recursive/Clone_Repo_Recursive/git-clone-with-submodules-1.3.8.vsix'
@@ -61,7 +60,7 @@ jobs:
     if: startsWith(github.ref_name, 'v')  # Only run for tag-based releases
     steps:
       - name: Download VSIX Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vsix-artifact
 
