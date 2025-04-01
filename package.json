@@ -4,7 +4,7 @@
   "icon": "icon.png",
   "description": "A VSCode extension to clone a repository recursively with submodules.",
   "publisher": "Solorzano-JuanJose",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "engines": {
     "vscode": "^1.97.0"
   },
