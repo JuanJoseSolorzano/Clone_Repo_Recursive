@@ -64,34 +64,25 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: build
-    steps:
+    steps: # Dependencies steps are the same as in the build job.
       - name: Checkout repository
         uses: actions/checkout@v3
-
+      # Download the artifact from the build job.
       - name: Download VSIX Artifact
         uses: actions/download-artifact@v4
         with:
-          name: vsix-artifact
-      
-      - name: Checking the GITHUB_WORKSPACE directory
-        run: |
-          echo "DEBUG: Checking the GITHUB_WORKSPACE directory"
-          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          ls -l $GITHUB_WORKSPACE  # List files in the workspace to verify the .vsix file is present
-          echo "GITHUB_ENV: ${{ env.root_file_location }}"
-          
+          name: vsix-artifact 
+    #NOTE: The following steps are executed to install dependencies, build the extension, and package it into a .vsix file.     
       - name: Install ts-loader
         run: npm install ts-loader --save-dev  # Ensure ts-loader is installed
-
       - name: Install vsce
         run: npm install -g @vscode/vsce
-
       - name: Verify vsce Installation
         run: vsce --version
         continue-on-error: false  # Fail the job if vsce is not installed correctly
-
+      # Publishing the extension to the VSCode Marketplace.
       - name: Publish to VS Code Marketplace
-        run: vsce publish --pat "${{ secrets.VSCE_TOKEN }}"
+        run: vsce publish --pat "${{ secrets.VSCE_TOKEN }}" # VSCE_TOKEN is a secret stored in the repository settings.
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
         continue-on-error: false  # Fail the job if publishing fails
