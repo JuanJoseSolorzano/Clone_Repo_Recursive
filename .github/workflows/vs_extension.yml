@@ -50,7 +50,6 @@ jobs:
           root_file_path="$GITHUB_WORKSPACE/$file_name"
           echo "root_file_location=$root_file_path"
           echo "root_file_location=$root_file_path" >> $GITHUB_ENV  # Append the file location to the GITHUB_ENV file
-          echo "${{ github.ref_name }}"
       # Upload the .vsix file as an artifact (cloud server) for later use in the release job.
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
@@ -63,31 +62,31 @@ jobs:
   deploy:
     runs-on: ubuntu-latest # Tells GitHub to run the job on the latest VM image available for Ubuntu.
     needs: build # This job depends on the build job, so it will only run after the build job is completed successfully.
-    if: '!startsWith(github.ref_name, ''v'')'  # Only run this job for non-versioned tags
+    if: 'contains(github.ref_name, "v") == false && github.ref_name == "master"' # Only run this job for non-versioned tags and push events
     steps: # Dependencies steps are the same as in the build job.
       - name: Checkout repository # clone the repository to the GitHub workspace
         run: echo "${{ github.ref_type }}" # This is a placeholder for the actual checkout step.
-      #- name: Checkout repository
-      #  uses: actions/checkout@v3
-      ## Download the artifact from the build job.
-      #- name: Download VSIX Artifact
-      #  uses: actions/download-artifact@v4
-      #  with:
-      #    name: vsix-artifact 
-    #N#OTE: The following steps are executed to install dependencies, build the extension, and package it into a .vsix file.     
-      #- name: Install ts-loader
-      #  run: npm install ts-loader --save-dev  # Ensure ts-loader is installed
-      #- name: Install vsce
-      #  run: npm install -g @vscode/vsce
-      #- name: Verify vsce Installation
-      #  run: vsce --version
-      #  continue-on-error: false  # Fail the job if vsce is not installed correctly
-      ## Publishing the extension to the VSCode Marketplace.
-      #- name: Publish to VS Code Marketplace
-      #  run: vsce publish --pat "${{ secrets.VSCE_TOKEN }}" # VSCE_TOKEN is a secret stored in the repository settings.
-      #  env:
-      #    NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
-      #  continue-on-error: false  # Fail the job if publishing fails
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      # Download the artifact from the build job.
+      - name: Download VSIX Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vsix-artifact 
+    #NOTE: The following steps are executed to install dependencies, build the extension, and package it into a .vsix file.     
+      - name: Install ts-loader
+        run: npm install ts-loader --save-dev  # Ensure ts-loader is installed
+      - name: Install vsce
+        run: npm install -g @vscode/vsce
+      - name: Verify vsce Installation
+        run: vsce --version
+        continue-on-error: false  # Fail the job if vsce is not installed correctly
+      # Publishing the extension to the VSCode Marketplace.
+      - name: Publish to VS Code Marketplace
+        run: vsce publish --pat "${{ secrets.VSCE_TOKEN }}" # VSCE_TOKEN is a secret stored in the repository settings.
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
+        continue-on-error: false  # Fail the job if publishing fails
 
   release:
     runs-on: ubuntu-latest
@@ -97,20 +96,20 @@ jobs:
     steps: # Dependencies steps are the same as in the build job.
       - name: Checkout repository
         run: echo "${{ github.ref_name }}" # This is a placeholder for the tag name.
-      #- name: Checkout repository
-      #  uses: actions/checkout@v3
-      ## Download the artifact from the build job.
-      #- name: Download VSIX Artifact
-      #  uses: actions/download-artifact@v4
-      #  with:
-      #    name: vsix-artifact
-    #N#OTE: Set a release version based on the tag name.
-      #- name: Upload VSIX to GitHub Release
-      #  uses: softprops/action-gh-release@v1
-      #  with:
-      #    files: ${{ env.root_file_location }} # Adjust the path if the .vsix is located elsewhere
-      #    body: "🚀 New release of the VS Code extension!"
-      #    draft: false
-      #    prerelease: false
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      # Download the artifact from the build job.
+      - name: Download VSIX Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vsix-artifact
+    #NOTE: Set a release version based on the tag name.
+      - name: Upload VSIX to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ env.root_file_location }} # Adjust the path if the .vsix is located elsewhere
+          body: "🚀 New release of the VS Code extension!"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
