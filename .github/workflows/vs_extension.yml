@@ -46,20 +46,23 @@ jobs:
           vsce package
       
       - name: "Get File Name"
-        run: | #NOTE: The following step could be use a bash script instead of inline commands.
-          dir_content=$(ls -1 $GITHUB_WORKSPACE)  # List files in the current directory
-          file_name=$(echo $dir_content | tr ' ' '\n' | grep ".vsix")
-          echo ">> File name: $file_name"
-          root_file_path="$GITHUB_WORKSPACE/$file_name"
-          echo ">> root_file_location=$root_file_path"
-          echo "root_file_location=$root_file_path" >> $GITHUB_ENV  # Append the file location to the GITHUB_ENV file
-          echo ${{env.root_file_location}} # Print the file location for debugging purposes
+        run: | #NOTE: The following step could use a bash script instead of inline commands.
+          file_name=$(ls -1 *.vsix | head -n 1)
+          echo "VSIX File: $file_name"
+          echo "VSIX_FILE=$file_name" >> $GITHUB_ENV
+          #echo ">> File name: $file_name"
+          #dir_content=$(ls -1 $GITHUB_WORKSPACE)  # List files in the current directory
+          #file_name=$(echo $dir_content | tr ' ' '\n' | grep ".vsix")
+          #echo ">> File name: $file_name"
+          #root_file_path="$GITHUB_WORKSPACE/$file_name"
+          #echo ">> root_file_location=$root_file_path"
+          #echo "root_file_location=$root_file_path" >> $GITHUB_ENV  # Append the file location to the GITHUB_ENV file
       # Upload the .vsix file as an artifact (cloud server) for later use in the release job.
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
         with:
           name: vsix-artifact # Name of the artifact to be uploaded
-          path: ${{ env.root_file_location }}  # Use the environment variable set in the previous step
+          path: ${{ env.VSIX_FILE }}  # Use the environment variable set in the previous step
 #NOTE:
 # Between jobs (build and release), either dependencies or repository files are shared, so, it is necessary 
 # to checkout the repository again in the release job.
@@ -107,11 +110,20 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vsix-artifact
+          path: .
     #NOTE: Set a release version based on the tag name.
+      - name: Find VSIX File
+        id: find_vsix_file
+        run: |
+          file_name=$(ls -1 *.vsix | head -n 1)
+          echo ">> VSIX File: $file_name"
+          echo "VSIX_FILE=$file_name" >> $GITHUB_ENV # Set the file location as an environment variable
+          echo ">> File location: ${{ env.VSIX_FILE }}"
+
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ env.root_file_location }} # Adjust the path if the .vsix is located elsewhere
+          files: ${{ env.VSIX_FILE }} # Adjust the path if the .vsix is located elsewhere
           body: "🚀 New release of the VS Code extension!"
           draft: false
           prerelease: false
