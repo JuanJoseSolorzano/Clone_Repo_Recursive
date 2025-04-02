@@ -1,6 +1,18 @@
-name: CI & Release Workflow # Name identification for the workflow
-# Triggers the workflow on specific events
-on: 
+#==========================================================================================
+# Author: Solorzano, Juan Jose
+# Date: 25-03-2025
+#------------------------------------------------------------------------------------------
+# Description:
+# This is a GitHub Actions workflow file for building and releasing a vscode extension.
+# The workflow is triggered on push events to the master branch (pull-request included) or when a versioned tag is pushed.
+# One Job is divided into three sub-jobs: build, deploy, and release. In a way to practice the CI/CD process, the three sub-jobs are separated.
+# Having the three sub-jobs separated pushes you to use environment variables to share data between jobs.
+#==========================================================================================
+
+# Name identification for the workflow
+name: CI & Release Workflow 
+
+on:  # Triggers the workflow on specific events
   push: # when pushing the master branch or pushing a tag
     branches:
       - master
@@ -23,13 +35,13 @@ jobs:
     steps: # Steps to be executed in the job
       - name: Checkout repository # clone the repository to the GitHub workspace
         uses: actions/checkout@v3
-    # From here, the following steps are executed to install dependencies, build the extension, and package it into a .vsix file.
-    # Same steps that you would do locally to build the extension.
+      # From here, the following steps are executed to install dependencies, build the extension, and package it into a .vsix file.
+      # Same steps that you would do locally to build the extension.
       - name: Setup Node.js # NodeJs environment 
         uses: actions/setup-node@v3 
         with:
           node-version: 18
-    #NOTE: it's possible to combine the setup-node and checkout steps into one step, but it's not recommended for readability.
+      #NOTE: it's possible to combine the setup-node and checkout steps into one step, but it's not recommended for readability.
       - name: Install dependencies
         run: npm ci  # `npm ci` is more reliable for CI environments as it installs dependencies based on the package-lock.json
       - name: Install ts-loader
@@ -46,19 +58,16 @@ jobs:
           vsce package
       
       - name: "Get File Name"
-        run: | #NOTE: The following step could be use a bash script instead of inline commands.
-          dir_content=$(ls -1 $GITHUB_WORKSPACE)  # List files in the current directory
-          file_name=$(echo $dir_content | tr ' ' '\n' | grep ".vsix")
-          echo "File name: $file_name"
-          root_file_path="$GITHUB_WORKSPACE/$file_name"
-          echo "root_file_location=$root_file_path"
-          echo "root_file_location=$root_file_path" >> $GITHUB_ENV  # Append the file location to the GITHUB_ENV file
+        run: |
+          file_name=$(ls -1 *.vsix | head -n 1) # Get the name of the first .vsix file in the directory.
+          echo "VSIX_FILE=$file_name" >> $GITHUB_ENV # Set the file location as an environment variable
+      
       # Upload the .vsix file as an artifact (cloud server) for later use in the release job.
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
         with:
           name: vsix-artifact # Name of the artifact to be uploaded
-          path: ${{ env.root_file_location }}  # Use the environment variable set in the previous step
+          path: ${{ env.VSIX_FILE }}  # Use the environment variable set in the previous step
 #NOTE:
 # Between jobs (build and release), either dependencies or repository files are shared, so, it is necessary 
 # to checkout the repository again in the release job.
@@ -68,8 +77,6 @@ jobs:
     if: contains(github.ref_name, 'v') == false && github.ref_name == 'master' # Wrap 'v' in single quotes
     steps: # Dependencies steps are the same as in the build job.
       - name: Checkout repository # clone the repository to the GitHub workspace
-        run: echo "${{ github.ref_type }}" # This is a placeholder for the actual checkout step.
-      - name: Checkout repository
         uses: actions/checkout@v3
       # Download the artifact from the build job.
       - name: Download VSIX Artifact
@@ -98,19 +105,23 @@ jobs:
     if: startsWith(github.ref_name, 'v')  
     steps: # Dependencies steps are the same as in the build job.
       - name: Checkout repository
-        run: echo "${{ github.ref_name }}" # This is a placeholder for the tag name.
-      - name: Checkout repository
         uses: actions/checkout@v3
       # Download the artifact from the build job.
       - name: Download VSIX Artifact
         uses: actions/download-artifact@v4
         with:
           name: vsix-artifact
-    #NOTE: Set a release version based on the tag name.
+          path: .
+      #NOTE: Set a release version based on the tag name.
+      - name: Find VSIX File
+        run: |
+          file_name=$(ls -1 *.vsix | head -n 1) # Get the name of the downloaded .visx file.
+          echo "VSIX_FILE=$file_name" >> $GITHUB_ENV # Set the file location as an environment variable
+      #NOTE: Start the upload process to GitHub Releases.
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ env.root_file_location }} # Adjust the path if the .vsix is located elsewhere
+          files: ${{ env.VSIX_FILE }} # Adjust the path if the .vsix is located elsewhere
           body: "🚀 New release of the VS Code extension!"
           draft: false
           prerelease: false

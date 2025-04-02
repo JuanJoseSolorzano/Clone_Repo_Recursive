@@ -1,9 +1,12 @@
 # Change Log
 
-All notable changes to the "git-clone-recursively" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
 ## [Unreleased]
 
-- Initial release
+### Added
+- Initial release of the extension with recursive Git clone functionality.
+
+### Fixed
+- N/A
+
+### Changed
+- Progress bar for cloning a repository was added.
