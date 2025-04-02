@@ -49,10 +49,11 @@ jobs:
         run: | #NOTE: The following step could be use a bash script instead of inline commands.
           dir_content=$(ls -1 $GITHUB_WORKSPACE)  # List files in the current directory
           file_name=$(echo $dir_content | tr ' ' '\n' | grep ".vsix")
-          echo "File name: $file_name"
+          echo ">> File name: $file_name"
           root_file_path="$GITHUB_WORKSPACE/$file_name"
-          echo "root_file_location=$root_file_path"
+          echo ">> root_file_location=$root_file_path"
           echo "root_file_location=$root_file_path" >> $GITHUB_ENV  # Append the file location to the GITHUB_ENV file
+          echo ${{env.root_file_location}} # Print the file location for debugging purposes
       # Upload the .vsix file as an artifact (cloud server) for later use in the release job.
       - name: Upload VSIX Artifact
         uses: actions/upload-artifact@v4
@@ -86,7 +87,7 @@ jobs:
         continue-on-error: false  # Fail the job if vsce is not installed correctly
       # Publishing the extension to the VSCode Marketplace.
       - name: Publish to VS Code Marketplace
-        run: vsce publish --pat "${{ secrets.VSCE_TOKEN }}" # VSCE_TOKEN is a secret stored in the repository settings.
+        run: vsce publish --pat "${{ secrets.VSCE_TdKEN }}" # VSCE_TOKEN is a secret stored in the repository settings.
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VSCE_TOKEN }}
         continue-on-error: false  # Fail the job if publishing fails
