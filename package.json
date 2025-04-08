@@ -1,10 +1,10 @@
 {
   "name": "git-clone-with-submodules",
   "displayName": "Git Clone With Submodules",
-  "icon": "icon.png",
+  "icon": "images/icon.png",
   "description": "A VSCode extension to clone a repository recursively with submodules.",
   "publisher": "Solorzano-JuanJose",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "engines": {
     "vscode": "^1.97.0"
   },
@@ -23,7 +23,7 @@
     "commands": [
       {
         "command": "clonewithsubmodule.CloneRepoRecursively",
-        "title": "Clone Wiht Submodules"
+        "title": "Clone With Submodules"
       }
     ]
   },

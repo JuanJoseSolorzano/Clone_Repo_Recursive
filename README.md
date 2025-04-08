@@ -25,14 +25,14 @@ This Visual Studio Code extension enables users to clone a Git repository recurs
 
 ## Command Pallete Screenshot
 
-![Clone Submodules Command Palette](./Screenshot_palette.png)
+![Clone Submodules Command Palette](./images/Screenshot_palette.png)
 
 Alternatively, you can use the status bar item:
 - Click on the status bar item labeled `Clone Repo Recursively` to trigger the cloning process.
 
 ## Status Bar Item Screenshot 
 
-![Clone Submodules Status Bar Item](./Screenshot.png)
+![Clone Submodules Status Bar Item](./images/Screenshot.png)
 
 ## Commands
 
