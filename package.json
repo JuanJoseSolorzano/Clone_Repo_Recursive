@@ -1,6 +1,6 @@
 {
-    "name": "tdr-clone-with-submodules",
-    "displayName": "[TDR] Clone With Submodules",
+    "name": "clone-with-submodules",
+    "displayName": "Clone With Submodules",
     "description": "A Visual Studio Code extension to clone repositories with submodules.",
     "version": "1.0.1",
     "publisher": "JuanJoseSolorzanoCarrillo",
@@ -21,8 +21,8 @@
     "contributes": {
         "commands": [
             {
-                "command": "tdr-clone-with-submodules.cloneWithSubmodules",
-                "title": "♻️ [TDR] Git Modules"
+                "command": "clone-with-submodules.cloneWithSubmodules",
+                "title": "♻️ Git Modules"
             }
         ]
     },

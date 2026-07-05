@@ -45,7 +45,7 @@ export function activate(context:code.ExtensionContext){
 	let gitModulesBtn = cloneModules.createStatusBarItem();
 	context.subscriptions.push(gitModulesBtn);
 
-	const command = code.commands.registerCommand('tdr-clone-with-submodules.cloneWithSubmodules',()=>cloneWithSubmodule(context));
+	const command = code.commands.registerCommand('clone-with-submodules.cloneWithSubmodules',()=>cloneWithSubmodule(context));
 	context.subscriptions.push(command); 
 }
 

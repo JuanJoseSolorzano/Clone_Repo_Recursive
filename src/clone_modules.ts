@@ -15,9 +15,9 @@ export function isValidUrl(url:string|undefined): boolean {
 
 export function createStatusBarItem(): code.StatusBarItem {
 	const statusBarItem = code.window.createStatusBarItem(code.StatusBarAlignment.Left, 100);
-	statusBarItem.text    = '$(repo-clone) [TDR] GitModules';
+	statusBarItem.text    = '$(repo-clone) GitModules';
 	statusBarItem.tooltip = 'Click to clone a repository recursively';
-	statusBarItem.command = "tdr-clone-with-submodules.cloneWithSubmodules";
+	statusBarItem.command = "clone-with-submodules.cloneWithSubmodules";
 	statusBarItem.show();
 	return statusBarItem;
 }

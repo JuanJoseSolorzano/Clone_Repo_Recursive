@@ -1,4 +1,4 @@
-# ⚡ [TDR] Clone With Submodules
+# ⚡ Clone With Submodules
 
 
 <p align="left">
@@ -35,18 +35,18 @@ The extension adds a status bar action that asks for a repository URL and destin
 
 **PowerShell**
 ```bash
-git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive; C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/tdr-clone-with-submodules.vsix; rm -Recurse -Force Clone_Repo_Recursive
+git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive; C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/clone-with-submodules.vsix; rm -Recurse -Force Clone_Repo_Recursive
 ```
 **Git Bash**
 ```bash
-git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive && C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/tdr-clone-with-submodules.vsix && rm -rf Clone_Repo_Recursive
+git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive && C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/clone-with-submodules.vsix && rm -rf Clone_Repo_Recursive
 ```
 
 ---
 
 ## 🖱️ Usage
 
-1. Click `$(repo-clone) [TDR] GitModules` in the status bar.
+1. Click `$(repo-clone) GitModules` in the status bar.
 2. Enter a repository URL, for example `https://github.com/org/repo.git`.
 3. Select the destination parent folder.
 4. Wait for cloning to complete, then confirm whether to open the cloned project.
