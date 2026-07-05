@@ -1,62 +1,58 @@
-# Git Clone Recursively - VSCode Extension
-
-## Description
-
-This Visual Studio Code extension enables users to clone a Git repository recursively, including all its submodules. It provides a command that prompts the user to enter a repository URL and select a target directory. The extension then executes the `git clone --recursive` command to download the repository and update all its submodules. After cloning, users can choose to open the repository in the current workspace, a new window, or add it to the current workspace.
-
-## Features
-
-- Clone a Git repository recursively, including all submodules.
-- Prompts the user to select a target directory for cloning.
-- Displays the cloning process output in the **Output** panel.
-- Provides options to open the cloned repository in the current workspace, a new window, or add it to the workspace.
-- Includes a status bar item for quick access to the cloning functionality.
-
-## Usage
-
-1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS).
-2. Search for and select the command: **Clone Repo Recursively**.
-3. Enter the repository URL when prompted.
-4. Select the target directory where the repository should be cloned.
-5. After cloning, choose how to open the cloned repository:
-   - Open in the current workspace.
-   - Open in a new window.
-   - Add to the current workspace.
-
-## Command Pallete Screenshot
-
-![Clone Submodules Command Palette](./images/Screenshot_palette.png)
-
-Alternatively, you can use the status bar item:
-- Click on the status bar item labeled `Clone Repo Recursively` to trigger the cloning process.
-
-## Status Bar Item Screenshot 
-
-![Clone Submodules Status Bar Item](./images/Screenshot.png)
-
-## Commands
-
-| Command ID                       | Description                          |
-|----------------------------------|--------------------------------------|
-| `clonewithsubmodule.CloneRepoRecursively` | Prompts the user to clone a repository recursively. |
-
-## Status Bar Item
-
-- **Text**: `$(repo-clone) Clone Repo Recursively`
-- **Tooltip**: `Click to clone a repository recursively`
-- **Command**: `clonewithsubmodule.CloneRepoRecursively`
-
-## Error Handling
-
-- If no repository URL is provided, the extension displays an error message: `A valid repository URL is required to clone.`
-- If the selected directory already contains a folder with the same repository name, the extension displays an error message: `The selected directory already contains a folder with the same repository name. Please select a different directory.`
-- If the cloning process fails, the extension displays an error message with the process exit code.
-
-## Requirements
-
-- Git must be installed and available in your system's PATH.
+# ⚡ [TDR] Clone With Submodules
 
 
-## License
+<p align="left">
+  <img src="./images/icon.png" alt="Extension Icon" width="280" height="280" />
+</p>
 
-This extension is licensed under the MIT License.
+Clone Git repositories with all submodules from inside VS Code.
+
+The extension adds a status bar action that asks for a repository URL and destination folder, then runs a recursive clone.
+
+---
+
+## ✨ Features
+
+- Clones using `git clone --recursive -j8`.
+- Validates repository URL input.
+- Lets you choose the parent directory before cloning.
+- Shows cancellable progress while cloning.
+- Offers to open the cloned repository when cloning finishes.
+
+---
+
+## 📦 Installation
+
+### From VSIX (local/internal flow)
+
+1. Download the latest `.vsix` package from the [Releases](https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive/releases) page.
+2. Open VS Code.
+3. Press `Ctrl+Shift+X` to open Extensions.
+4. Select `...` in the top-right corner of Extensions.
+5. Select `Install from VSIX...` and pick the file.
+
+### Using `code` CLI
+
+**PowerShell**
+```bash
+git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive; C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/tdr-clone-with-submodules.vsix; rm -Recurse -Force Clone_Repo_Recursive
+```
+**Git Bash**
+```bash
+git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive && C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/tdr-clone-with-submodules.vsix && rm -rf Clone_Repo_Recursive
+```
+
+---
+
+## 🖱️ Usage
+
+1. Click `$(repo-clone) [TDR] GitModules` in the status bar.
+2. Enter a repository URL, for example `https://github.com/org/repo.git`.
+3. Select the destination parent folder.
+4. Wait for cloning to complete, then confirm whether to open the cloned project.
+
+---
+
+## 📄 License
+
+See [LICENSE.md](./LICENSE.md).
