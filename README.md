@@ -1,6 +1,5 @@
 # ⚡ Clone With Submodules
 
-
 <p align="left">
   <img src="./images/icon.png" alt="Extension Icon" width="280" height="280" />
 </p>

@@ -2,7 +2,7 @@
     "name": "clone-with-submodules",
     "displayName": "Clone With Submodules",
     "description": "A Visual Studio Code extension to clone repositories with submodules.",
-    "version": "1.0.1",
+    "version": "2.0.1",
     "publisher": "JuanJoseSolorzanoCarrillo",
     "icon": "images/icon.png",
     "repository": {
