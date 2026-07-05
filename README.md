@@ -1,83 +1,58 @@
-# ⚡ Open File With – VSCode Extension
-
-<div align="center">
-
-[![Last Updated](https://img.shields.io/visual-studio-marketplace/last-updated/Solorzano-JuanJose.OpenFileWith)](https://github.com/JuanJoseSolorzano/OpenFileWith_Vscode_Extension)
-[![Version](https://img.shields.io/visual-studio-marketplace/v/Solorzano-JuanJose.OpenFileWith)](https://marketplace.visualstudio.com/items/Solorzano-JuanJose.OpenFileWith)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/Solorzano-JuanJose.OpenFileWith)](https://marketplace.visualstudio.com/items?itemName=Solorzano-JuanJose.OpenFileWith) [![Downloads](https://img.shields.io/visual-studio-marketplace/d/Solorzano-JuanJose.OpenFileWith)](https://marketplace.visualstudio.com/items?itemName=Solorzano-JuanJose.OpenFileWith) [![Rating Star](https://img.shields.io/visual-studio-marketplace/stars/Solorzano-JuanJose.OpenFileWith)](https://marketplace.visualstudio.com/items?itemName=Solorzano-JuanJose.OpenFileWith&ssr=false#review-details)
+# ⚡ [TDR] Clone With Submodules
 
 
-</div>
-<p align="center">
-  <img src="./images/icon.png" alt="Extension Icon" width="350" height="350" />
+<p align="left">
+  <img src="./images/icon.png" alt="Extension Icon" width="280" height="280" />
 </p>
 
-A simple and fast way to **open files with your favorite tools** directly from the VSCode context menu.
-Enhance productivity in VSCode with a customizable 'Open File With...' context menu to execute files using your preferred tools.
+Clone Git repositories with all submodules from inside VS Code.
+
+The extension adds a status bar action that asks for a repository URL and destination folder, then runs a recursive clone.
 
 ---
 
 ## ✨ Features
 
-- 📂 Right-click a file → **Open File With...**
-- ⚙️ Choose the tool you want to open it with.
-- 🔌 Works with scripts, executables, and more.
+- Clones using `git clone --recursive -j8`.
+- Validates repository URL input.
+- Lets you choose the parent directory before cloning.
+- Shows cancellable progress while cloning.
+- Offers to open the cloned repository when cloning finishes.
 
 ---
 
 ## 📦 Installation
 
-1. Open **VSCode**
-2. Go to **Extensions** (`Ctrl+Shift+X`)
-3. Search for **Open File With** or search for **JuanJose** 
-4. Click **Install**
+### From VSIX (local/internal flow)
+
+1. Download the latest `.vsix` package from the [Releases](https://github.vitesco.io/sg922674/git_with_submodules/releases) page.
+2. Open VS Code.
+3. Press `Ctrl+Shift+X` to open Extensions.
+4. Select `...` in the top-right corner of Extensions.
+5. Select `Install from VSIX...` and pick the file.
+
+### Using `code` CLI
+
+**PowerShell**
+```bash
+git clone --depth=1 https://github.vitesco.io/sg922674/git_with_submodules; C:\LegacyApp\VSCode\bin\code.cmd --install-extension git_with_submodules/tdr-clone-with-submodules.vsix; rm -Recurse -Force git_with_submodules
+```
+**Git Bash**
+```bash
+git clone --depth=1 https://github.vitesco.io/sg922674/git_with_submodules && C:\LegacyApp\VSCode\bin\code.cmd --install-extension tdr-clone-with-submodules/tdr-clone-with-submodules.vsix && rm -rf tdr-clone-with-submodules
+```
 
 ---
 
 ## 🖱️ Usage
 
-1. Right-click any file in Explorer  
-  ![Context Menu Example](./images/example02.png)  
-2. Select **Open File With...**  
-3. Choose your tool and open instantly ⚡
-  ![Context Menu Example](./images/example03.png) 
-4. You can also select the option in the editor context:
-  ![Context Menu Example](./images/example01.png) 
+1. Click `$(repo-clone) [TDR] GitModules` in the status bar.
+2. Enter a repository URL, for example `https://github.com/org/repo.git`.
+3. Select the destination parent folder.
+4. Wait for cloning to complete, then confirm whether to open the cloned project.
+
 ---
 
-## 🔧 Configuration
+## 📄 License
 
-You can configure custom tools in your `settings.json`:
-Go to settings and search for the extension name:
-
-![Context Menu Example](./images/example04.png) 
-
-Option: `Exec_Extensions` Here you can add the extension name of a executable file. Eg: .exe, .sh ...
-
-Option: `Main_Configuration`: Define the programs to run a specific file. Eg: select 'Edit in settings.json and add new app:
-
-```jsonc
-"tdr-open-file-with.configuration": {
-        
-        ".html": [
-            {
-                "alias": "Google Chrome",
-                "path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-            },
-            {
-                "alias": "Microsoft Edge",
-                "path": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
-            }
-        ],
-        ".xml": [
-            {
-                "alias": "Altova",
-                "path": "C:\\LegacyApp\\Altova\\Authentic2006\\AUTHENTIC.exe"
-            },
-            {
-                "alias": "InfoPath",
-                "path": "C:\\Program Files\\Microsoft Office\\Office15\\INFOPATH.EXE"
-            }
-        ],
-} 
-```
+See [LICENSE.md](./LICENSE.md).
