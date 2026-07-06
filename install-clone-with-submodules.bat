@@ -8,9 +8,9 @@ echo ==================================================
 echo.
 
 set "SCRIPT_DIR=%~dp0"
-set "SOURCE=%SCRIPT_DIR%clone-with-submodules.vsix"
+set "SOURCE=%SCRIPT_DIR%git-clone-with-submodules.vsix"
 set "CODECLI=C:\LegacyApp\VSCode\bin\code.cmd"
-set "OLD_EXTENSION=solorzano-juanjose.git-clone-with-submodules"
+set "OLD_EXTENSION=solorzano-juanjose.git-git-clone-with-submodules"
 
 if not exist "%CODECLI%" (
     echo [ERROR] VS Code CLI not found:
@@ -23,7 +23,7 @@ if not exist "%SOURCE%" (
     echo [ERROR] VSIX file not found:
     echo "%SOURCE%"
     echo.
-    echo Put clone-with-submodules.vsix next to this installer.
+    echo Put git-clone-with-submodules.vsix next to this installer.
 )
 
 echo [INFO] VS Code CLI:

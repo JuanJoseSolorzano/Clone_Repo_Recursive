@@ -17,7 +17,7 @@ export function createStatusBarItem(): code.StatusBarItem {
 	const statusBarItem = code.window.createStatusBarItem(code.StatusBarAlignment.Left, 100);
 	statusBarItem.text    = '$(repo-clone) GitModules';
 	statusBarItem.tooltip = 'Click to clone a repository recursively';
-	statusBarItem.command = "clone-with-submodules.cloneWithSubmodules";
+	statusBarItem.command = "git-clone-with-submodules.cloneWithSubmodules";
 	statusBarItem.show();
 	return statusBarItem;
 }

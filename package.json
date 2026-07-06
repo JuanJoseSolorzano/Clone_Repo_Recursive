@@ -1,8 +1,8 @@
 {
-    "name": "clone-with-submodules",
-    "displayName": "Clone With Submodules",
+    "name": "git-clone-with-submodules",
+    "displayName": "Git Clone With Submodules",
     "description": "A Visual Studio Code extension to clone repositories with submodules.",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "publisher": "Solorzano-JuanJose",
     "icon": "images/icon.png",
     "repository": {
@@ -21,7 +21,7 @@
     "contributes": {
         "commands": [
             {
-                "command": "clone-with-submodules.cloneWithSubmodules",
+                "command": "git-clone-with-submodules.cloneWithSubmodules",
                 "title": "♻️ Git Modules"
             }
         ]

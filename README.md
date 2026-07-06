@@ -34,11 +34,11 @@ The extension adds a status bar action that asks for a repository URL and destin
 
 **PowerShell**
 ```bash
-git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive; C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/clone-with-submodules.vsix; rm -Recurse -Force Clone_Repo_Recursive
+git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive; C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/git-clone-with-submodules.vsix; rm -Recurse -Force Clone_Repo_Recursive
 ```
 **Git Bash**
 ```bash
-git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive && C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/clone-with-submodules.vsix && rm -rf Clone_Repo_Recursive
+git clone --depth=1 https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive && C:\LegacyApp\VSCode\bin\code.cmd --install-extension Clone_Repo_Recursive/git-clone-with-submodules.vsix && rm -rf Clone_Repo_Recursive
 ```
 
 ---
