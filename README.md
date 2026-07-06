@@ -28,7 +28,7 @@ The extension adds a status bar action that asks for a repository URL and destin
 4. Wait for cloning to complete, then confirm whether to open the cloned project.
 
 ## Demo
-[![Demo](./images/demo.gif)](https://user-images.githubusercontent.com/16890566/236646091-0f5c1d3e-7a9b-4f6e-bd8c-2f0a1b3c5e4e.gif)
+[![Demo](./demo.gif)](https://user-images.githubusercontent.com/16890566/236646091-0f5c1d3e-7a9b-4f6e-bd8c-2f0a1b3c5e4e.gif)
 
 ## 📦 Installation
 
