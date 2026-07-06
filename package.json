@@ -7,7 +7,7 @@
     "icon": "images/icon.png",
     "repository": {
         "type": "git",
-        "url": "https://github.com/JuanJoseSolorzano/Clone_Repo_Recursive"
+        "url": "https://github.com/JuanJoseSolorzano/GitCloneWithSubmodules.git"
     },
     "engines": {
         "vscode": "^1.105.0"
